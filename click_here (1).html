@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>A Special Question 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #764ba2;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .question {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(118, 75, 162, 0.4);
+        }
+
+        .no-btn {
+            background: #e0e0e0;
+            color: #666;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .no-btn:hover {
+            background: #d0d0d0;
+        }
+        
+        .no-btn:active {
+            background: #d0d0d0;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #764ba2;
+            border-radius: 10px;
+            margin: 20px 0;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            animation: float 4s ease-in infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .teddy-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 40px;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .teddy {
+            font-size: 80px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .female-teddy {
+            animation-delay: 0s;
+        }
+
+        .male-teddy {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .balloon {
+            position: absolute;
+            font-size: 50px;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: floatBalloon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatBalloon {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-15px);
+            }
+        }
+
+        .love-message {
+            font-size: 24px;
+            color: #e91e63;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+
+    <!-- Page 1: First Question -->
+    <div class="container" id="page1">
+        <h1>💕 A Special Question 💕</h1>
+        <p class="question">Will you be with me forever? 💖</p>
+        <div class="buttons">
+            <button class="yes-btn" onclick="goToPage2()">Yes! 💕</button>
+            <button class="no-btn" id="noBtn" onclick="askAgain()">No</button>
+        </div>
+    </div>
+
+    <!-- Page 2: Second Question -->
+    <div class="container hidden" id="page2">
+        <h1>🥰 One More Question 🥰</h1>
+        <p class="question">When will we hug, cuddle and sleep with each other? 💑</p>
+        <input type="text" id="answerInput" placeholder="Type your answer here...">
+        <div class="buttons">
+            <button class="yes-btn" onclick="goToPage3()">Next ➜</button>
+        </div>
+    </div>
+
+    <!-- Page 3: Teddy Animation -->
+    <div class="container hidden" id="page3">
+        <h1>💖 Forever Together 💖</h1>
+        <div class="teddy-container">
+            <div style="position: relative;">
+                <div class="balloon">🎈</div>
+                <div class="teddy female-teddy">🧸</div>
+            </div>
+            <div class="teddy male-teddy">🧸</div>
+        </div>
+        <p class="love-message">I Love You! 💕</p>
+        <p style="margin-top: 20px; color: #666; font-size: 16px;" id="userAnswer"></p>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('hearts').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        setInterval(createHeart, 500);
+
+        let noClickCount = 0;
+        let noBtnMoved = false;
+
+        function askAgain() {
+            noClickCount++;
+            const noBtn = document.getElementById('noBtn');
+            
+            if (noClickCount === 1) {
+                alert("Are you sure? 🥺 Please think again!");
+            } else if (noClickCount === 2) {
+                alert("Come on! You know you want to say yes! 💕");
+            } else if (noClickCount === 3) {
+                alert("I won't give up! Please say yes! 🥹");
+            } else {
+                alert("Pretty please with a cherry on top? 🍒");
+            }
+            
+            // Make the No button move away
+            const maxMove = window.innerWidth < 600 ? 50 : 100;
+            const x = Math.random() * maxMove * 2 - maxMove;
+            const y = Math.random() * maxMove * 2 - maxMove;
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            noBtnMoved = true;
+            
+            setTimeout(() => {
+                noBtn.style.transform = 'translate(0, 0)';
+                noBtnMoved = false;
+            }, 800);
+        }
+
+        function goToPage2() {
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.remove('hidden');
+            document.getElementById('page2').style.animation = 'fadeIn 0.5s ease-in';
+        }
+
+        function goToPage3() {
+            const answer = document.getElementById('answerInput').value.trim();
+            
+            if (answer === '') {
+                alert('Please write your answer first! 💕');
+                return;
+            }
+            
+            document.getElementById('page2').classList.add('hidden');
+            document.getElementById('page3').classList.remove('hidden');
+            document.getElementById('page3').style.animation = 'fadeIn 0.5s ease-in';
+            document.getElementById('userAnswer').innerHTML = `Your answer: "${answer}" 💖`;
+        }
+
+        // Prevent No button from being clicked too easily on mobile and desktop
+        const noButton = document.getElementById('noBtn');
+        
+        // For mobile (touchstart)
+        noButton.addEventListener('touchstart', function(e) {
+            if (!noBtnMoved && Math.random() > 0.6) {
+                e.preventDefault();
+                const maxMove = 50;
+                const x = Math.random() * maxMove * 2 - maxMove;
+                const y = Math.random() * maxMove * 2 - maxMove;
+                this.style.transform = `translate(${x}px, ${y}px)`;
+                setTimeout(() => {
+                    this.style.transform = 'translate(0, 0)';
+                }, 800);
+            }
+        });
+        
+        // For desktop (mouseenter)
+        noButton.addEventListener('mouseenter', function() {
+            if (!noBtnMoved && Math.random() > 0.7) {
+                const x = Math.random() * 100 - 50;
+                const y = Math.random() * 100 - 50;
+                this.style.transform = `translate(${x}px, ${y}px)`;
+                setTimeout(() => {
+                    this.style.transform = 'translate(0, 0)';
+                }, 800);
+            }
+        });
+    </script>
+</body>
+</html>
